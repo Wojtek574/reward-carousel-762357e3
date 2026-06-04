@@ -221,10 +221,10 @@ function Hero() {
 
 function Stats() {
   const items = [
-    { label: "Aktywnych użytkowników", value: "84 320+", icon: Users },
-    { label: "Wypłacono łącznie", value: "3,2 mln zł", icon: Banknote },
-    { label: "Średnio na osobę / msc", value: "412 zł", icon: TrendingUp },
-    { label: "Dostępnych zadań dziś", value: "127", icon: Zap },
+    { label: "Aktywnych użytkowników", value: "1 842", icon: Users },
+    { label: "Wypłacono łącznie", value: "47 320 zł", icon: Banknote },
+    { label: "Średnio na osobę / msc", value: "180 zł", icon: TrendingUp },
+    { label: "Dostępnych zadań dziś", value: "24", icon: Zap },
   ];
   return (
     <section className="mx-auto -mt-12 grid w-[min(1200px,92%)] grid-cols-2 gap-3 md:grid-cols-4">
