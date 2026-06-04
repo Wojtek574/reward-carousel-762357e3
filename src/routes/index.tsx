@@ -33,13 +33,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CashTask — Płatne zadania online, prowizje 5–30 zł" },
+      { title: "Zadaniomat.pl — Płatne zadania online, prowizje 5–30 zł" },
       {
         name: "description",
         content:
-          "Wykonuj proste płatne zadania online i odbieraj prowizje od 5 do 30 zł. Wypłata środków w 24h. Dołącz do tysięcy zadowolonych użytkowników.",
+          "Zadaniomat.pl — wykonuj proste płatne zadania online i odbieraj prowizje od 5 do 30 zł. Wypłata środków w 24h.",
       },
-      { property: "og:title", content: "CashTask — Płatne zadania online" },
+      { property: "og:title", content: "Zadaniomat.pl — Płatne zadania online" },
       {
         property: "og:description",
         content: "Proste zadania, realne pieniądze. Prowizje 5–30 zł. Wypłata w 24h.",
@@ -156,7 +156,7 @@ function Header() {
         <div className="grid h-8 w-8 place-items-center rounded-lg bg-money shadow-glow">
           <Banknote className="h-4 w-4 text-primary-foreground" />
         </div>
-        <span className="font-display text-lg font-bold">CashTask</span>
+        <span className="font-display text-lg font-bold">Zadaniomat.pl</span>
       </div>
       <Button onClick={go} size="sm" className="rounded-full bg-money text-primary-foreground hover:opacity-90">
         Zacznij zarabiać
@@ -586,9 +586,9 @@ function Footer() {
         <div className="grid h-7 w-7 place-items-center rounded-lg bg-money">
           <Banknote className="h-3.5 w-3.5 text-primary-foreground" />
         </div>
-        <span className="font-display font-bold text-foreground">CashTask</span>
+        <span className="font-display font-bold text-foreground">Zadaniomat.pl</span>
       </div>
-      © {new Date().getFullYear()} CashTask. Wszelkie prawa zastrzeżone.
+      © {new Date().getFullYear()} Zadaniomat.pl Wszelkie prawa zastrzeżone.
     </footer>
   );
 }
