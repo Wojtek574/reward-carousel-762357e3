@@ -169,7 +169,7 @@ function LiveTicker() {
   return (
     <div className="bg-primary/10 border-b border-primary/20 py-2 text-center text-xs font-medium text-primary">
       <span className="pulse-dot mr-2 inline-block h-2 w-2 rounded-full bg-primary align-middle" />
-      LIVE · 1 247 osób zarabia w tej chwili · Dziś wypłacono 28 430 zł
+      LIVE · 38 osób zarabia w tej chwili · Dziś wypłacono 1 240 zł
     </div>
   );
 }
