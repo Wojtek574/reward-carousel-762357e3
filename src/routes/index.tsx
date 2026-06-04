@@ -212,7 +212,7 @@ function Hero() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
           <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Bezpieczne wypłaty</span>
           <span className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> Pieniądze w 24h</span>
-          <span className="flex items-center gap-2"><Star className="h-4 w-4 text-primary" /> 4.9/5 · 12 800 opinii</span>
+          <span className="flex items-center gap-2"><Star className="h-4 w-4 text-primary" /> 4.9/5 · 312 opinii</span>
         </div>
       </div>
     </section>
