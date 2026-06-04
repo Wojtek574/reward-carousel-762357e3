@@ -275,38 +275,37 @@ function TaskCard({ task }: { task: Task }) {
   return (
     <Card
       className={`group relative flex h-full flex-col overflow-hidden border-border p-6 transition-all hover:-translate-y-1 hover:border-primary/50 ${
-        task.exclusive ? "bg-card-gradient ring-1 ring-accent/40" : "bg-card-gradient"
+        task.exclusive ? "bg-card-gradient ring-2 ring-accent/60" : "bg-card-gradient"
       } shadow-card`}
     >
+      {/* Big commission badge top-right */}
+      <div className="absolute right-0 top-0 rounded-bl-2xl bg-money px-4 py-2 text-right shadow-glow">
+        <div className="text-[10px] font-medium uppercase tracking-wide text-primary-foreground/80">Prowizja</div>
+        <div className="text-2xl font-extrabold leading-none text-primary-foreground">+{task.reward} zł</div>
+      </div>
+
       {task.exclusive && (
-        <div className="absolute right-4 top-4">
-          <Badge className="bg-accent text-accent-foreground hover:bg-accent">
-            <Sparkles className="mr-1 h-3 w-3" /> EXCLUSIVE
-          </Badge>
-        </div>
+        <Badge className="mb-3 w-fit bg-accent text-accent-foreground hover:bg-accent">
+          <Sparkles className="mr-1 h-3 w-3" /> EXCLUSIVE
+        </Badge>
       )}
+
       <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-primary/15 text-primary">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="text-lg font-bold">{task.title}</h3>
+      <h3 className="text-xl font-bold">{task.title}</h3>
       <p className="mt-2 flex-1 text-sm text-muted-foreground">{task.description}</p>
 
-      <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-        <div>
-          <div className="text-xs text-muted-foreground">Prowizja</div>
-          <div className="text-2xl font-bold text-money">{task.reward} zł</div>
-        </div>
-        <div className="text-right">
-          <div className="text-xs text-muted-foreground">Czas</div>
-          <div className="text-sm font-medium">{task.time}</div>
-        </div>
+      <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {task.time}</span>
+        <span className="flex items-center gap-1 text-primary"><ShieldCheck className="h-3.5 w-3.5" /> Wypłata 24h</span>
       </div>
 
       <Button
         onClick={go}
-        className="mt-5 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
+        className="mt-4 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
       >
-        Wykonaj zadanie <ArrowRight className="ml-1 h-4 w-4" />
+        Odbierz {task.reward} zł <ArrowRight className="ml-1 h-4 w-4" />
       </Button>
     </Card>
   );
