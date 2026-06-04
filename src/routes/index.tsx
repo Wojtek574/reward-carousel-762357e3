@@ -411,9 +411,12 @@ function Payout() {
 }
 
 function RecentActivity() {
-  const [items, setItems] = useState(() => generateActivity(8));
+  const [items, setItems] = useState<Activity[]>([]);
+  const [payouts, setPayouts] = useState<Activity[]>([]);
 
   useEffect(() => {
+    setItems(generateActivity(8));
+    setPayouts(generatePayouts(8));
     const t = setInterval(() => {
       setItems((prev) => [generateActivity(1)[0], ...prev.slice(0, 7)]);
     }, 4500);
@@ -424,13 +427,7 @@ function RecentActivity() {
     <section className="mx-auto mt-32 w-[min(1200px,92%)]">
       <div className="grid gap-6 lg:grid-cols-2">
         <ActivityList title="Ostatnio odebrane prowizje" subtitle="Live" icon={Zap} items={items} kind="reward" />
-        <ActivityList
-          title="Ostatnie wypłaty"
-          subtitle="Live"
-          icon={Banknote}
-          items={generatePayouts(8)}
-          kind="payout"
-        />
+        <ActivityList title="Ostatnie wypłaty" subtitle="Live" icon={Banknote} items={payouts} kind="payout" />
       </div>
     </section>
   );
