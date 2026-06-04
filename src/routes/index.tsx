@@ -586,9 +586,9 @@ function Footer() {
         <div className="grid h-7 w-7 place-items-center rounded-lg bg-money">
           <Banknote className="h-3.5 w-3.5 text-primary-foreground" />
         </div>
-        <span className="font-display font-bold text-foreground">CashTask</span>
+        <span className="font-display font-bold text-foreground">Zadaniomat.pl</span>
       </div>
-      © {new Date().getFullYear()} CashTask. Wszelkie prawa zastrzeżone.
+      © {new Date().getFullYear()} Zadaniomat.pl Wszelkie prawa zastrzeżone.
     </footer>
   );
 }
