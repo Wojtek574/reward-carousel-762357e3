@@ -63,64 +63,13 @@ type Task = {
 };
 
 const TASKS: Task[] = [
-  {
-    id: "1",
-    title: "Wypełnij krótką ankietę",
-    description: "Odpowiedz na 8 pytań dotyczących Twoich preferencji zakupowych.",
-    reward: 7,
-    time: "3 min",
-    icon: Mail,
-  },
-  {
-    id: "2",
-    title: "Pobierz aplikację mobilną",
-    description: "Zainstaluj polecaną aplikację i uruchom ją po raz pierwszy.",
-    reward: 12,
-    time: "5 min",
-    icon: Smartphone,
-  },
-  {
-    id: "3",
-    title: "Zagraj 5 minut w grę",
-    description: "Załóż konto w wybranej grze przeglądarkowej i osiągnij level 2.",
-    reward: 15,
-    time: "10 min",
-    icon: Gamepad2,
-  },
-  {
-    id: "4",
-    title: "EXCLUSIVE: Test produktu premium",
-    description: "Zarejestruj się w usłudze premium i wypróbuj ją za darmo przez 7 dni.",
-    reward: 30,
-    time: "8 min",
-    icon: Sparkles,
-    exclusive: true,
-  },
-  {
-    id: "5",
-    title: "Obejrzyj krótki film promocyjny",
-    description: "Zobacz reklamę i odpowiedz na 2 proste pytania.",
-    reward: 5,
-    time: "2 min",
-    icon: PlayCircle,
-  },
-  {
-    id: "6",
-    title: "Załóż konto w sklepie online",
-    description: "Stwórz darmowe konto u partnerskiego sprzedawcy.",
-    reward: 10,
-    time: "4 min",
-    icon: ShoppingBag,
-  },
-  {
-    id: "7",
-    title: "EXCLUSIVE: Subskrypcja VIP",
-    description: "Aktywuj darmowy okres próbny serwisu rozrywkowego klasy premium.",
-    reward: 30,
-    time: "6 min",
-    icon: Trophy,
-    exclusive: true,
-  },
+  { id: "1", title: "Zadanie 1", description: "Krótkie zadanie online — odbierz prowizję od razu po wykonaniu.", reward: 5, time: "2 min", icon: PlayCircle },
+  { id: "2", title: "Zadanie 2", description: "Proste zadanie do wykonania na telefonie lub komputerze.", reward: 7, time: "3 min", icon: Mail },
+  { id: "3", title: "Zadanie 3", description: "Łatwe zadanie — wystarczy kilka kliknięć.", reward: 10, time: "4 min", icon: ShoppingBag },
+  { id: "4", title: "Zadanie 4", description: "Wykonaj zadanie i odbierz prowizję na konto.", reward: 12, time: "5 min", icon: Smartphone },
+  { id: "5", title: "Zadanie 5", description: "Wyższa stawka za zadanie z krótkim potwierdzeniem.", reward: 15, time: "8 min", icon: Gamepad2 },
+  { id: "6", title: "Zadanie 6 — EXCLUSIVE", description: "Ekskluzywne zadanie premium z najwyższą prowizją.", reward: 30, time: "6 min", icon: Sparkles, exclusive: true },
+  { id: "7", title: "Zadanie 7 — EXCLUSIVE", description: "Ekskluzywne zadanie VIP — limitowana liczba miejsc.", reward: 30, time: "8 min", icon: Trophy, exclusive: true },
 ];
 
 const FIRST_NAMES = [
@@ -220,7 +169,7 @@ function LiveTicker() {
   return (
     <div className="bg-primary/10 border-b border-primary/20 py-2 text-center text-xs font-medium text-primary">
       <span className="pulse-dot mr-2 inline-block h-2 w-2 rounded-full bg-primary align-middle" />
-      LIVE · 1 247 osób zarabia w tej chwili · Dziś wypłacono 28 430 zł
+      LIVE · 38 osób zarabia w tej chwili · Dziś wypłacono 1 240 zł
     </div>
   );
 }
@@ -263,7 +212,7 @@ function Hero() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
           <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Bezpieczne wypłaty</span>
           <span className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> Pieniądze w 24h</span>
-          <span className="flex items-center gap-2"><Star className="h-4 w-4 text-primary" /> 4.9/5 · 12 800 opinii</span>
+          <span className="flex items-center gap-2"><Star className="h-4 w-4 text-primary" /> 4.9/5 · 312 opinii</span>
         </div>
       </div>
     </section>
@@ -272,10 +221,10 @@ function Hero() {
 
 function Stats() {
   const items = [
-    { label: "Aktywnych użytkowników", value: "84 320+", icon: Users },
-    { label: "Wypłacono łącznie", value: "3,2 mln zł", icon: Banknote },
-    { label: "Średnio na osobę / msc", value: "412 zł", icon: TrendingUp },
-    { label: "Dostępnych zadań dziś", value: "127", icon: Zap },
+    { label: "Aktywnych użytkowników", value: "1 842", icon: Users },
+    { label: "Wypłacono łącznie", value: "47 320 zł", icon: Banknote },
+    { label: "Średnio na osobę / msc", value: "180 zł", icon: TrendingUp },
+    { label: "Dostępnych zadań dziś", value: "24", icon: Zap },
   ];
   return (
     <section className="mx-auto -mt-12 grid w-[min(1200px,92%)] grid-cols-2 gap-3 md:grid-cols-4">
@@ -326,38 +275,37 @@ function TaskCard({ task }: { task: Task }) {
   return (
     <Card
       className={`group relative flex h-full flex-col overflow-hidden border-border p-6 transition-all hover:-translate-y-1 hover:border-primary/50 ${
-        task.exclusive ? "bg-card-gradient ring-1 ring-accent/40" : "bg-card-gradient"
+        task.exclusive ? "bg-card-gradient ring-2 ring-accent/60" : "bg-card-gradient"
       } shadow-card`}
     >
+      {/* Big commission badge top-right */}
+      <div className="absolute right-0 top-0 rounded-bl-2xl bg-money px-4 py-2 text-right shadow-glow">
+        <div className="text-[10px] font-medium uppercase tracking-wide text-primary-foreground/80">Prowizja</div>
+        <div className="text-2xl font-extrabold leading-none text-primary-foreground">+{task.reward} zł</div>
+      </div>
+
       {task.exclusive && (
-        <div className="absolute right-4 top-4">
-          <Badge className="bg-accent text-accent-foreground hover:bg-accent">
-            <Sparkles className="mr-1 h-3 w-3" /> EXCLUSIVE
-          </Badge>
-        </div>
+        <Badge className="mb-3 w-fit bg-accent text-accent-foreground hover:bg-accent">
+          <Sparkles className="mr-1 h-3 w-3" /> EXCLUSIVE
+        </Badge>
       )}
+
       <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-primary/15 text-primary">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="text-lg font-bold">{task.title}</h3>
+      <h3 className="text-xl font-bold">{task.title}</h3>
       <p className="mt-2 flex-1 text-sm text-muted-foreground">{task.description}</p>
 
-      <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-        <div>
-          <div className="text-xs text-muted-foreground">Prowizja</div>
-          <div className="text-2xl font-bold text-money">{task.reward} zł</div>
-        </div>
-        <div className="text-right">
-          <div className="text-xs text-muted-foreground">Czas</div>
-          <div className="text-sm font-medium">{task.time}</div>
-        </div>
+      <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {task.time}</span>
+        <span className="flex items-center gap-1 text-primary"><ShieldCheck className="h-3.5 w-3.5" /> Wypłata 24h</span>
       </div>
 
       <Button
         onClick={go}
-        className="mt-5 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
+        className="mt-4 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
       >
-        Wykonaj zadanie <ArrowRight className="ml-1 h-4 w-4" />
+        Odbierz {task.reward} zł <ArrowRight className="ml-1 h-4 w-4" />
       </Button>
     </Card>
   );
@@ -463,9 +411,12 @@ function Payout() {
 }
 
 function RecentActivity() {
-  const [items, setItems] = useState(() => generateActivity(8));
+  const [items, setItems] = useState<Activity[]>([]);
+  const [payouts, setPayouts] = useState<Activity[]>([]);
 
   useEffect(() => {
+    setItems(generateActivity(8));
+    setPayouts(generatePayouts(8));
     const t = setInterval(() => {
       setItems((prev) => [generateActivity(1)[0], ...prev.slice(0, 7)]);
     }, 4500);
@@ -476,13 +427,7 @@ function RecentActivity() {
     <section className="mx-auto mt-32 w-[min(1200px,92%)]">
       <div className="grid gap-6 lg:grid-cols-2">
         <ActivityList title="Ostatnio odebrane prowizje" subtitle="Live" icon={Zap} items={items} kind="reward" />
-        <ActivityList
-          title="Ostatnie wypłaty"
-          subtitle="Live"
-          icon={Banknote}
-          items={generatePayouts(8)}
-          kind="payout"
-        />
+        <ActivityList title="Ostatnie wypłaty" subtitle="Live" icon={Banknote} items={payouts} kind="payout" />
       </div>
     </section>
   );
@@ -618,7 +563,7 @@ function FinalCTA() {
             Twoje pierwsze 15 zł jest na wyciągnięcie ręki.
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-primary-foreground/80">
-            Dołącz do ponad 84 000 osób, które już zarabiają na prostych zadaniach online.
+            Dołącz do ponad 1 800 osób, które już zarabiają na prostych zadaniach online.
           </p>
           <Button
             onClick={go}
