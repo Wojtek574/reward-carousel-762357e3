@@ -33,13 +33,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CashTask — Płatne zadania online, prowizje 5–30 zł" },
+      { title: "Zadaniomat.pl — Płatne zadania online, prowizje 5–30 zł" },
       {
         name: "description",
         content:
-          "Wykonuj proste płatne zadania online i odbieraj prowizje od 5 do 30 zł. Wypłata środków w 24h. Dołącz do tysięcy zadowolonych użytkowników.",
+          "Zadaniomat.pl — wykonuj proste płatne zadania online i odbieraj prowizje od 5 do 30 zł. Wypłata środków w 24h.",
       },
-      { property: "og:title", content: "CashTask — Płatne zadania online" },
+      { property: "og:title", content: "Zadaniomat.pl — Płatne zadania online" },
       {
         property: "og:description",
         content: "Proste zadania, realne pieniądze. Prowizje 5–30 zł. Wypłata w 24h.",
