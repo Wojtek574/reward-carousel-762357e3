@@ -156,7 +156,7 @@ function Header() {
         <div className="grid h-8 w-8 place-items-center rounded-lg bg-money shadow-glow">
           <Banknote className="h-4 w-4 text-primary-foreground" />
         </div>
-        <span className="font-display text-lg font-bold">CashTask</span>
+        <span className="font-display text-lg font-bold">Zadaniomat.pl</span>
       </div>
       <Button onClick={go} size="sm" className="rounded-full bg-money text-primary-foreground hover:opacity-90">
         Zacznij zarabiać
