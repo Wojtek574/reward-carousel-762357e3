@@ -567,7 +567,7 @@ function FinalCTA() {
             Twoje pierwsze 15 zł jest na wyciągnięcie ręki.
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-primary-foreground/80">
-            Dołącz do ponad 84 000 osób, które już zarabiają na prostych zadaniach online.
+            Dołącz do ponad 1 800 osób, które już zarabiają na prostych zadaniach online.
           </p>
           <Button
             onClick={go}
