@@ -63,64 +63,13 @@ type Task = {
 };
 
 const TASKS: Task[] = [
-  {
-    id: "1",
-    title: "Wypełnij krótką ankietę",
-    description: "Odpowiedz na 8 pytań dotyczących Twoich preferencji zakupowych.",
-    reward: 7,
-    time: "3 min",
-    icon: Mail,
-  },
-  {
-    id: "2",
-    title: "Pobierz aplikację mobilną",
-    description: "Zainstaluj polecaną aplikację i uruchom ją po raz pierwszy.",
-    reward: 12,
-    time: "5 min",
-    icon: Smartphone,
-  },
-  {
-    id: "3",
-    title: "Zagraj 5 minut w grę",
-    description: "Załóż konto w wybranej grze przeglądarkowej i osiągnij level 2.",
-    reward: 15,
-    time: "10 min",
-    icon: Gamepad2,
-  },
-  {
-    id: "4",
-    title: "EXCLUSIVE: Test produktu premium",
-    description: "Zarejestruj się w usłudze premium i wypróbuj ją za darmo przez 7 dni.",
-    reward: 30,
-    time: "8 min",
-    icon: Sparkles,
-    exclusive: true,
-  },
-  {
-    id: "5",
-    title: "Obejrzyj krótki film promocyjny",
-    description: "Zobacz reklamę i odpowiedz na 2 proste pytania.",
-    reward: 5,
-    time: "2 min",
-    icon: PlayCircle,
-  },
-  {
-    id: "6",
-    title: "Załóż konto w sklepie online",
-    description: "Stwórz darmowe konto u partnerskiego sprzedawcy.",
-    reward: 10,
-    time: "4 min",
-    icon: ShoppingBag,
-  },
-  {
-    id: "7",
-    title: "EXCLUSIVE: Subskrypcja VIP",
-    description: "Aktywuj darmowy okres próbny serwisu rozrywkowego klasy premium.",
-    reward: 30,
-    time: "6 min",
-    icon: Trophy,
-    exclusive: true,
-  },
+  { id: "1", title: "Zadanie 1", description: "Krótkie zadanie online — odbierz prowizję od razu po wykonaniu.", reward: 5, time: "2 min", icon: PlayCircle },
+  { id: "2", title: "Zadanie 2", description: "Proste zadanie do wykonania na telefonie lub komputerze.", reward: 7, time: "3 min", icon: Mail },
+  { id: "3", title: "Zadanie 3", description: "Łatwe zadanie — wystarczy kilka kliknięć.", reward: 10, time: "4 min", icon: ShoppingBag },
+  { id: "4", title: "Zadanie 4", description: "Wykonaj zadanie i odbierz prowizję na konto.", reward: 12, time: "5 min", icon: Smartphone },
+  { id: "5", title: "Zadanie 5", description: "Wyższa stawka za zadanie z krótkim potwierdzeniem.", reward: 15, time: "8 min", icon: Gamepad2 },
+  { id: "6", title: "Zadanie 6 — EXCLUSIVE", description: "Ekskluzywne zadanie premium z najwyższą prowizją.", reward: 30, time: "6 min", icon: Sparkles, exclusive: true },
+  { id: "7", title: "Zadanie 7 — EXCLUSIVE", description: "Ekskluzywne zadanie VIP — limitowana liczba miejsc.", reward: 30, time: "8 min", icon: Trophy, exclusive: true },
 ];
 
 const FIRST_NAMES = [
