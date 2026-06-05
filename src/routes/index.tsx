@@ -312,7 +312,7 @@ function TaskCard({ task }: { task: Task }) {
       </div>
 
       <Button
-        onClick={go}
+        onClick={() => goTo(task.url)}
         className="mt-4 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
       >
         Odbierz {task.reward} zł <ArrowRight className="ml-1 h-4 w-4" />
