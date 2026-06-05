@@ -49,8 +49,13 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// 🔗 Replace this with your affiliate / content-locker URL
-const AFFILIATE_URL = "https://example.com/locker";
+const URL_1 = "https://price-low.eu/a/DkyOiO824HlqzR";
+const URL_2 = "https://price-low.eu/a/BBwMT8ZlOcWKZr";
+const URL_3 = "https://sungoclick.space/a/mZDzIWkD4sQ014";
+const AFFILIATE_URL = URL_1;
+
+const SURVEY_DESC = "Załóż konto i wykonaj jedną ankietę.";
+const INSTALL_DESC = "Zainstaluj aplikację i osiągnij poziom 1.";
 
 type Task = {
   id: string;
@@ -59,17 +64,19 @@ type Task = {
   reward: number;
   time: string;
   icon: typeof Wallet;
+  url: string;
   exclusive?: boolean;
 };
 
 const TASKS: Task[] = [
-  { id: "1", title: "Zadanie 1", description: "Krótkie zadanie online — odbierz prowizję od razu po wykonaniu.", reward: 5, time: "2 min", icon: PlayCircle },
-  { id: "2", title: "Zadanie 2", description: "Proste zadanie do wykonania na telefonie lub komputerze.", reward: 7, time: "3 min", icon: Mail },
-  { id: "3", title: "Zadanie 3", description: "Łatwe zadanie — wystarczy kilka kliknięć.", reward: 10, time: "4 min", icon: ShoppingBag },
-  { id: "4", title: "Zadanie 4", description: "Wykonaj zadanie i odbierz prowizję na konto.", reward: 12, time: "5 min", icon: Smartphone },
-  { id: "5", title: "Zadanie 5", description: "Wyższa stawka za zadanie z krótkim potwierdzeniem.", reward: 15, time: "8 min", icon: Gamepad2 },
-  { id: "6", title: "Zadanie 6 — EXCLUSIVE", description: "Ekskluzywne zadanie premium z najwyższą prowizją.", reward: 30, time: "6 min", icon: Sparkles, exclusive: true },
-  { id: "7", title: "Zadanie 7 — EXCLUSIVE", description: "Ekskluzywne zadanie VIP — limitowana liczba miejsc.", reward: 30, time: "8 min", icon: Trophy, exclusive: true },
+  { id: "1", title: "Zadanie 1", description: SURVEY_DESC, reward: 5, time: "3 min", icon: Mail, url: URL_1 },
+  { id: "2", title: "Zadanie 2", description: SURVEY_DESC, reward: 7, time: "3 min", icon: Mail, url: URL_2 },
+  { id: "3", title: "Zadanie 3", description: INSTALL_DESC, reward: 10, time: "5 min", icon: Gamepad2, url: URL_3 },
+  { id: "4", title: "Zadanie 4", description: SURVEY_DESC, reward: 12, time: "4 min", icon: Mail, url: URL_1 },
+  { id: "5", title: "Zadanie 5", description: SURVEY_DESC, reward: 15, time: "5 min", icon: Mail, url: URL_2 },
+  { id: "6", title: "Zadanie 6", description: INSTALL_DESC, reward: 20, time: "6 min", icon: Smartphone, url: URL_3 },
+  { id: "7", title: "Zadanie 7 — EXCLUSIVE", description: SURVEY_DESC, reward: 25, time: "6 min", icon: Sparkles, url: URL_1, exclusive: true },
+  { id: "8", title: "Zadanie 8 — EXCLUSIVE", description: INSTALL_DESC, reward: 30, time: "8 min", icon: Trophy, url: URL_3, exclusive: true },
 ];
 
 const FIRST_NAMES = [
@@ -128,6 +135,9 @@ const TESTIMONIALS = [
 
 function go() {
   if (typeof window !== "undefined") window.open(AFFILIATE_URL, "_blank", "noopener");
+}
+function goTo(url: string) {
+  if (typeof window !== "undefined") window.open(url, "_blank", "noopener");
 }
 
 function Index() {
@@ -302,7 +312,7 @@ function TaskCard({ task }: { task: Task }) {
       </div>
 
       <Button
-        onClick={go}
+        onClick={() => goTo(task.url)}
         className="mt-4 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
       >
         Odbierz {task.reward} zł <ArrowRight className="ml-1 h-4 w-4" />
