@@ -133,7 +133,10 @@ const TESTIMONIALS = [
   },
 ];
 
-function go(url: string = AFFILIATE_URL) {
+function go() {
+  if (typeof window !== "undefined") window.open(AFFILIATE_URL, "_blank", "noopener");
+}
+function goTo(url: string) {
   if (typeof window !== "undefined") window.open(url, "_blank", "noopener");
 }
 
