@@ -28,7 +28,11 @@ import {
   Users,
   TrendingUp,
   Banknote,
+  CircleDashed,
+  Loader2,
+  RotateCcw,
 } from "lucide-react";
+import { useTaskStatuses, type TaskStatus } from "@/hooks/use-task-status";
 
 export const Route = createFileRoute("/")({
   head: () => ({
