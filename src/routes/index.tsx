@@ -28,7 +28,11 @@ import {
   Users,
   TrendingUp,
   Banknote,
+  CircleDashed,
+  Loader2,
+  RotateCcw,
 } from "lucide-react";
+import { useTaskStatuses, type TaskStatus } from "@/hooks/use-task-status";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -250,9 +254,16 @@ function Stats() {
 }
 
 function TasksCarousel() {
+  const { store, setStatus, reset } = useTaskStatuses();
+
+  const selected = TASKS.filter((t) => store[t.id] === "selected").length;
+  const inProgress = TASKS.filter((t) => store[t.id] === "in_progress").length;
+  const done = TASKS.filter((t) => store[t.id] === "done");
+  const earned = done.reduce((sum, t) => sum + t.reward, 0);
+
   return (
     <section className="mx-auto mt-24 w-[min(1200px,92%)]">
-      <div className="mb-8 flex items-end justify-between gap-4">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <Badge variant="outline" className="mb-3 border-accent/40 bg-accent/10 text-accent">
             Dostępne zadania
@@ -263,11 +274,46 @@ function TasksCarousel() {
         </div>
       </div>
 
+      {/* Progress panel */}
+      <Card className="mb-6 flex flex-wrap items-center justify-between gap-4 border-border bg-card-gradient p-4 shadow-card">
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <Badge variant="outline" className="border-border bg-background/40">
+            <CircleDashed className="mr-1 h-3 w-3" /> Wybrane: {selected}
+          </Badge>
+          <Badge variant="outline" className="border-accent/40 bg-accent/10 text-accent">
+            <Loader2 className="mr-1 h-3 w-3" /> W trakcie: {inProgress}
+          </Badge>
+          <Badge variant="outline" className="border-primary/40 bg-primary/10 text-primary">
+            <CheckCircle2 className="mr-1 h-3 w-3" /> Zrobione: {done.length}
+          </Badge>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="text-right">
+            <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Zgromadzona prowizja</div>
+            <div className="text-xl font-extrabold text-money">{earned} zł</div>
+          </div>
+          {done.length + selected + inProgress > 0 && (
+            <Button
+              onClick={reset}
+              size="sm"
+              variant="outline"
+              className="rounded-full border-border bg-background/40 text-xs"
+            >
+              <RotateCcw className="mr-1 h-3 w-3" /> Resetuj
+            </Button>
+          )}
+        </div>
+      </Card>
+
       <Carousel opts={{ align: "start", loop: true }} className="w-full">
         <CarouselContent className="-ml-4">
           {TASKS.map((t) => (
             <CarouselItem key={t.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <TaskCard task={t} />
+              <TaskCard
+                task={t}
+                status={store[t.id] ?? "none"}
+                onStatus={(s) => setStatus(t.id, s)}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -280,13 +326,28 @@ function TasksCarousel() {
   );
 }
 
-function TaskCard({ task }: { task: Task }) {
+const STATUS_META: Record<Exclude<TaskStatus, "none">, { label: string; icon: typeof CircleDashed; cls: string }> = {
+  selected: { label: "Wybrane", icon: CircleDashed, cls: "bg-secondary text-secondary-foreground" },
+  in_progress: { label: "W trakcie", icon: Loader2, cls: "bg-accent text-accent-foreground" },
+  done: { label: "Zrobione", icon: CheckCircle2, cls: "bg-money text-primary-foreground" },
+};
+
+function TaskCard({
+  task,
+  status,
+  onStatus,
+}: {
+  task: Task;
+  status: TaskStatus;
+  onStatus: (s: TaskStatus) => void;
+}) {
   const Icon = task.icon;
+  const isDone = status === "done";
   return (
     <Card
       className={`group relative flex h-full flex-col overflow-hidden border-border p-6 transition-all hover:-translate-y-1 hover:border-primary/50 ${
         task.exclusive ? "bg-card-gradient ring-2 ring-accent/60" : "bg-card-gradient"
-      } shadow-card`}
+      } ${isDone ? "opacity-90" : ""} shadow-card`}
     >
       {/* Big commission badge top-right */}
       <div className="absolute right-0 top-0 rounded-bl-2xl bg-money px-4 py-2 text-right shadow-glow">
@@ -294,11 +355,22 @@ function TaskCard({ task }: { task: Task }) {
         <div className="text-2xl font-extrabold leading-none text-primary-foreground">+{task.reward} zł</div>
       </div>
 
-      {task.exclusive && (
-        <Badge className="mb-3 w-fit bg-accent text-accent-foreground hover:bg-accent">
-          <Sparkles className="mr-1 h-3 w-3" /> EXCLUSIVE
-        </Badge>
-      )}
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        {task.exclusive && (
+          <Badge className="w-fit bg-accent text-accent-foreground hover:bg-accent">
+            <Sparkles className="mr-1 h-3 w-3" /> EXCLUSIVE
+          </Badge>
+        )}
+        {status !== "none" && (
+          <Badge className={`${STATUS_META[status].cls} hover:opacity-90`}>
+            {(() => {
+              const I = STATUS_META[status].icon;
+              return <I className={`mr-1 h-3 w-3 ${status === "in_progress" ? "animate-spin" : ""}`} />;
+            })()}
+            {STATUS_META[status].label}
+          </Badge>
+        )}
+      </div>
 
       <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-primary/15 text-primary">
         <Icon className="h-6 w-6" />
@@ -312,12 +384,53 @@ function TaskCard({ task }: { task: Task }) {
       </div>
 
       <Button
-        onClick={() => goTo(task.url)}
+        onClick={() => {
+          if (status === "none") onStatus("selected");
+          else if (status === "selected") onStatus("in_progress");
+          goTo(task.url);
+        }}
         className="mt-4 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
       >
-        Odbierz {task.reward} zł <ArrowRight className="ml-1 h-4 w-4" />
+        {isDone ? "Otwórz ponownie" : `Odbierz ${task.reward} zł`} <ArrowRight className="ml-1 h-4 w-4" />
       </Button>
+
+      {/* Status controls */}
+      <div className="mt-3 grid grid-cols-3 gap-1.5">
+        <StatusBtn active={status === "selected"} onClick={() => onStatus(status === "selected" ? "none" : "selected")}>
+          <CircleDashed className="h-3 w-3" /> Wybrane
+        </StatusBtn>
+        <StatusBtn active={status === "in_progress"} onClick={() => onStatus(status === "in_progress" ? "none" : "in_progress")}>
+          <Loader2 className={`h-3 w-3 ${status === "in_progress" ? "animate-spin" : ""}`} /> W trakcie
+        </StatusBtn>
+        <StatusBtn active={isDone} onClick={() => onStatus(isDone ? "none" : "done")}>
+          <CheckCircle2 className="h-3 w-3" /> Zrobione
+        </StatusBtn>
+      </div>
     </Card>
+  );
+}
+
+function StatusBtn({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex items-center justify-center gap-1 rounded-lg border px-2 py-1.5 text-[11px] font-medium transition ${
+        active
+          ? "border-primary bg-primary/15 text-primary"
+          : "border-border bg-background/40 text-muted-foreground hover:text-foreground"
+      }`}
+    >
+      {children}
+    </button>
   );
 }
 
