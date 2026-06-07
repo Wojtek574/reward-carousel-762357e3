@@ -385,8 +385,7 @@ function TaskCard({
 
       <Button
         onClick={() => {
-          if (status === "none") onStatus("selected");
-          else if (status === "selected") onStatus("in_progress");
+          if (!isDone) onStatus("in_progress");
           goTo(task.url);
         }}
         className="mt-4 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
