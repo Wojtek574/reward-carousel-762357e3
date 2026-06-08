@@ -834,8 +834,10 @@ function ActivityToast() {
 }
 
 function TrackingPanel() {
+  const [mounted, setMounted] = useState(false);
   const [summary, setSummary] = useState(() => getTrackingSummary());
   useEffect(() => {
+    setMounted(true);
     setSummary(getTrackingSummary());
     const unsub = subscribeTracking(() => setSummary(getTrackingSummary()));
     return () => {
@@ -860,7 +862,7 @@ function TrackingPanel() {
             <div>
               <h3 className="text-lg font-bold">Twój tracking</h3>
               <p className="text-xs text-muted-foreground">
-                Sesja: <span className="font-mono">{summary.sid}</span> · {summary.count} zdarzeń
+                Sesja: <span className="font-mono">{mounted ? summary.sid : "—"}</span> · {mounted ? summary.count : 0} zdarzeń
               </p>
             </div>
           </div>
