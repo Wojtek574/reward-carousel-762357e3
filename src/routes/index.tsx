@@ -33,6 +33,13 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { useTaskStatuses, type TaskStatus } from "@/hooks/use-task-status";
+import {
+  track,
+  getTrackingSummary,
+  subscribeTracking,
+  clearTrackingLog,
+} from "@/lib/tracking";
+import { Activity as ActivityIcon, BarChart3, MousePointerClick } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -137,14 +144,19 @@ const TESTIMONIALS = [
   },
 ];
 
-function go() {
+function go(source = "cta") {
+  track("cta_click", { source, url: AFFILIATE_URL });
   if (typeof window !== "undefined") window.open(AFFILIATE_URL, "_blank", "noopener");
 }
-function goTo(url: string) {
+function goTo(url: string, meta: { taskId?: string; reward?: number; source?: string } = {}) {
+  track("affiliate_click", { url, ...meta });
   if (typeof window !== "undefined") window.open(url, "_blank", "noopener");
 }
 
 function Index() {
+  useEffect(() => {
+    track("page_view", { source: "index" });
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <LiveTicker />
@@ -152,6 +164,7 @@ function Index() {
       <Hero />
       <Stats />
       <TasksCarousel />
+      <TrackingPanel />
       <HowItWorks />
       <Payout />
       <RecentActivity />
