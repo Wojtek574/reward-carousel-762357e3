@@ -63,7 +63,13 @@ export const Route = createFileRoute("/")({
 const URL_1 = "https://price-low.eu/a/DkyOiO824HlqzR";
 const URL_2 = "https://price-low.eu/a/BBwMT8ZlOcWKZr";
 const URL_3 = "https://sungoclick.space/a/mZDzIWkD4sQ014";
+const ALL_URLS = [URL_1, URL_2, URL_3];
 const AFFILIATE_URL = URL_1;
+
+// Build a fallback chain — primary first, then the other URLs as backups.
+function chain(primary: string): string[] {
+  return [primary, ...ALL_URLS.filter((u) => u !== primary)];
+}
 
 const SURVEY_DESC = "Załóż konto i wykonaj jedną ankietę.";
 const INSTALL_DESC = "Zainstaluj aplikację i osiągnij poziom 1.";
@@ -75,19 +81,19 @@ type Task = {
   reward: number;
   time: string;
   icon: typeof Wallet;
-  url: string;
+  urls: string[];
   exclusive?: boolean;
 };
 
 const TASKS: Task[] = [
-  { id: "1", title: "Zadanie 1", description: SURVEY_DESC, reward: 5, time: "3 min", icon: Mail, url: URL_1 },
-  { id: "2", title: "Zadanie 2", description: SURVEY_DESC, reward: 7, time: "3 min", icon: Mail, url: URL_2 },
-  { id: "3", title: "Zadanie 3", description: INSTALL_DESC, reward: 10, time: "5 min", icon: Gamepad2, url: URL_3 },
-  { id: "4", title: "Zadanie 4", description: SURVEY_DESC, reward: 12, time: "4 min", icon: Mail, url: URL_1 },
-  { id: "5", title: "Zadanie 5", description: SURVEY_DESC, reward: 15, time: "5 min", icon: Mail, url: URL_2 },
-  { id: "6", title: "Zadanie 6", description: INSTALL_DESC, reward: 20, time: "6 min", icon: Smartphone, url: URL_3 },
-  { id: "7", title: "Zadanie 7 — EXCLUSIVE", description: SURVEY_DESC, reward: 25, time: "6 min", icon: Sparkles, url: URL_1, exclusive: true },
-  { id: "8", title: "Zadanie 8 — EXCLUSIVE", description: INSTALL_DESC, reward: 30, time: "8 min", icon: Trophy, url: URL_3, exclusive: true },
+  { id: "1", title: "Zadanie 1", description: SURVEY_DESC, reward: 5, time: "3 min", icon: Mail, urls: chain(URL_1) },
+  { id: "2", title: "Zadanie 2", description: SURVEY_DESC, reward: 7, time: "3 min", icon: Mail, urls: chain(URL_2) },
+  { id: "3", title: "Zadanie 3", description: INSTALL_DESC, reward: 10, time: "5 min", icon: Gamepad2, urls: chain(URL_3) },
+  { id: "4", title: "Zadanie 4", description: SURVEY_DESC, reward: 12, time: "4 min", icon: Mail, urls: chain(URL_1) },
+  { id: "5", title: "Zadanie 5", description: SURVEY_DESC, reward: 15, time: "5 min", icon: Mail, urls: chain(URL_2) },
+  { id: "6", title: "Zadanie 6", description: INSTALL_DESC, reward: 20, time: "6 min", icon: Smartphone, urls: chain(URL_3) },
+  { id: "7", title: "Zadanie 7 — EXCLUSIVE", description: SURVEY_DESC, reward: 25, time: "6 min", icon: Sparkles, urls: chain(URL_1), exclusive: true },
+  { id: "8", title: "Zadanie 8 — EXCLUSIVE", description: INSTALL_DESC, reward: 30, time: "8 min", icon: Trophy, urls: chain(URL_3), exclusive: true },
 ];
 
 const FIRST_NAMES = [
