@@ -780,3 +780,105 @@ function ActivityToast() {
     </div>
   );
 }
+
+function TrackingPanel() {
+  const [summary, setSummary] = useState(() => getTrackingSummary());
+  useEffect(() => {
+    setSummary(getTrackingSummary());
+    const unsub = subscribeTracking(() => setSummary(getTrackingSummary()));
+    return () => {
+      unsub();
+    };
+  }, []);
+
+  const totalClicks = summary.totals.affiliate_click || 0;
+  const totalDone = summary.totals.task_done || 0;
+  const totalStart = summary.totals.task_start || 0;
+  const totalEarned = Object.values(summary.perTask).reduce((s, t) => s + t.reward, 0);
+  const cr = totalClicks > 0 ? Math.round((totalDone / totalClicks) * 100) : 0;
+
+  return (
+    <section className="mx-auto mt-12 w-[min(1200px,92%)]">
+      <Card className="border-border bg-card-gradient p-6 shadow-card">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary/15 text-primary">
+              <BarChart3 className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold">Twój tracking</h3>
+              <p className="text-xs text-muted-foreground">
+                Sesja: <span className="font-mono">{summary.sid}</span> · {summary.count} zdarzeń
+              </p>
+            </div>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => clearTrackingLog()}
+            className="rounded-full border-border bg-background/40 text-xs"
+          >
+            <RotateCcw className="mr-1 h-3 w-3" /> Wyczyść
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <Stat icon={MousePointerClick} label="Kliknięcia afiliacyjne" value={totalClicks} />
+          <Stat icon={ActivityIcon} label="Rozpoczęte" value={totalStart} />
+          <Stat icon={CheckCircle2} label="Ukończone" value={totalDone} />
+          <Stat icon={Banknote} label="Zarobione" value={`${totalEarned} zł`} />
+        </div>
+
+        <div className="mt-4 text-xs text-muted-foreground">
+          Konwersja kliknięcie → ukończenie: <span className="font-semibold text-foreground">{cr}%</span>
+        </div>
+
+        {Object.keys(summary.perTask).length > 0 && (
+          <div className="mt-5 overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="text-xs uppercase text-muted-foreground">
+                <tr>
+                  <th className="py-2 pr-3">Zadanie</th>
+                  <th className="py-2 pr-3">Kliknięcia</th>
+                  <th className="py-2 pr-3">Ukończenia</th>
+                  <th className="py-2">Prowizja</th>
+                </tr>
+              </thead>
+              <tbody>
+                {TASKS.filter((t) => summary.perTask[t.id]).map((t) => {
+                  const row = summary.perTask[t.id];
+                  return (
+                    <tr key={t.id} className="border-t border-border/60">
+                      <td className="py-2 pr-3 font-medium">{t.title}</td>
+                      <td className="py-2 pr-3">{row.clicks}</td>
+                      <td className="py-2 pr-3">{row.done}</td>
+                      <td className="py-2 font-semibold text-money">{row.reward} zł</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+    </section>
+  );
+}
+
+function Stat({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof BarChart3;
+  label: string;
+  value: number | string;
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-background/40 p-4">
+      <Icon className="h-4 w-4 text-primary" />
+      <div className="mt-2 text-2xl font-extrabold">{value}</div>
+      <div className="mt-1 text-xs text-muted-foreground">{label}</div>
+    </div>
+  );
+}
