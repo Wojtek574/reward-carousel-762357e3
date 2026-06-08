@@ -40,6 +40,7 @@ import {
   clearTrackingLog,
 } from "@/lib/tracking";
 import { Activity as ActivityIcon, BarChart3, MousePointerClick } from "lucide-react";
+import { resolveAffiliateUrl } from "@/lib/affiliate.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -152,11 +153,56 @@ const TESTIMONIALS = [
 
 function go(source = "cta") {
   track("cta_click", { source, url: AFFILIATE_URL });
-  if (typeof window !== "undefined") window.open(AFFILIATE_URL, "_blank", "noopener");
+  openWithFallback([AFFILIATE_URL, URL_2, URL_3], { source });
 }
-function goTo(url: string, meta: { taskId?: string; reward?: number; source?: string } = {}) {
-  track("affiliate_click", { url, ...meta });
-  if (typeof window !== "undefined") window.open(url, "_blank", "noopener");
+
+function goTo(urls: string[], meta: { taskId?: string; reward?: number; source?: string } = {}) {
+  openWithFallback(urls, meta);
+}
+
+// Opens a popup immediately (to satisfy popup blockers), resolves the first
+// working affiliate URL on the server, then redirects the popup to it.
+function openWithFallback(
+  urls: string[],
+  meta: { taskId?: string; reward?: number; source?: string } = {},
+) {
+  if (typeof window === "undefined") return;
+
+  const fallback = urls[0];
+  const popup = window.open("about:blank", "_blank", "noopener");
+
+  // Show a tiny "checking link…" UI while we resolve.
+  try {
+    popup?.document?.write(
+      `<title>Łączenie…</title><style>body{font:14px system-ui;background:#0b0b0e;color:#fff;display:grid;place-items:center;height:100vh;margin:0}</style><div>Łączenie z ofertą…</div>`,
+    );
+  } catch {
+    /* cross-origin or sandboxed — ignore */
+  }
+
+  const navigate = (url: string, status: "primary" | "fallback" | "dead") => {
+    track("affiliate_click", { url, status, ...meta });
+    if (popup && !popup.closed) {
+      try {
+        popup.location.href = url;
+        return;
+      } catch {
+        /* popup blocked us — fall through */
+      }
+    }
+    // Popup was blocked: navigate the current tab as a last resort.
+    window.location.href = url;
+  };
+
+  resolveAffiliateUrl({ data: { urls } })
+    .then((res) => {
+      if (res.allDead) navigate(res.url, "dead");
+      else navigate(res.url, res.fallback ? "fallback" : "primary");
+    })
+    .catch(() => {
+      // Network/server-fn failure — just use the primary URL.
+      navigate(fallback, "primary");
+    });
 }
 
 function Index() {
