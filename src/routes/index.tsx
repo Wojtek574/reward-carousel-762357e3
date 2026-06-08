@@ -452,9 +452,9 @@ function TaskCard({
         onClick={() => {
           if (!isDone) {
             onStatus("in_progress");
-            track("task_start", { taskId: task.id, reward: task.reward, url: task.url });
+            track("task_start", { taskId: task.id, reward: task.reward, url: task.urls[0] });
           }
-          goTo(task.url, { taskId: task.id, reward: task.reward, source: "task_card" });
+          goTo(task.urls, { taskId: task.id, reward: task.reward, source: "task_card" });
         }}
         className="mt-4 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
       >
