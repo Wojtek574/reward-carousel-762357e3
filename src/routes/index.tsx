@@ -185,7 +185,7 @@ function Header() {
         </div>
         <span className="font-display text-lg font-bold">Zadaniomat.pl</span>
       </div>
-      <Button onClick={go} size="sm" className="rounded-full bg-money text-primary-foreground hover:opacity-90">
+      <Button onClick={() => go("header")} size="sm" className="rounded-full bg-money text-primary-foreground hover:opacity-90">
         Zacznij zarabiać
       </Button>
     </header>
@@ -219,7 +219,7 @@ function Hero() {
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button
-            onClick={go}
+            onClick={() => go("hero_primary")}
             size="lg"
             className="h-14 rounded-full bg-money px-8 text-base font-semibold text-primary-foreground shadow-glow hover:opacity-90"
           >
@@ -227,7 +227,7 @@ function Hero() {
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
           <Button
-            onClick={go}
+            onClick={() => go("hero_secondary")}
             size="lg"
             variant="outline"
             className="h-14 rounded-full border-border bg-card/50 px-8 text-base"
@@ -518,7 +518,7 @@ function Payout() {
               która Ci odpowiada — wszystkie są w 100% bezpłatne.
             </p>
             <Button
-              onClick={go}
+              onClick={() => { track("payout_click", { source: "payout_section" }); go("payout"); }}
               size="lg"
               className="mt-6 h-12 rounded-full bg-money px-7 font-semibold text-primary-foreground shadow-glow hover:opacity-90"
             >
@@ -701,7 +701,7 @@ function FinalCTA() {
             Dołącz do ponad 1 800 osób, które już zarabiają na prostych zadaniach online.
           </p>
           <Button
-            onClick={go}
+            onClick={() => go("final_cta")}
             size="lg"
             className="mt-8 h-14 rounded-full bg-background px-10 text-base font-bold text-foreground hover:bg-background/90"
           >
