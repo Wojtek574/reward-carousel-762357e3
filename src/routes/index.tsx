@@ -398,8 +398,11 @@ function TaskCard({
 
       <Button
         onClick={() => {
-          if (!isDone) onStatus("in_progress");
-          goTo(task.url);
+          if (!isDone) {
+            onStatus("in_progress");
+            track("task_start", { taskId: task.id, reward: task.reward, url: task.url });
+          }
+          goTo(task.url, { taskId: task.id, reward: task.reward, source: "task_card" });
         }}
         className="mt-4 w-full rounded-xl bg-money font-semibold text-primary-foreground hover:opacity-90"
       >
@@ -408,13 +411,25 @@ function TaskCard({
 
       {/* Status controls */}
       <div className="mt-3 grid grid-cols-3 gap-1.5">
-        <StatusBtn active={status === "selected"} onClick={() => onStatus(status === "selected" ? "none" : "selected")}>
+        <StatusBtn active={status === "selected"} onClick={() => {
+          const next = status === "selected" ? "none" : "selected";
+          onStatus(next);
+          if (next === "selected") track("task_select", { taskId: task.id, reward: task.reward });
+        }}>
           <CircleDashed className="h-3 w-3" /> Wybrane
         </StatusBtn>
-        <StatusBtn active={status === "in_progress"} onClick={() => onStatus(status === "in_progress" ? "none" : "in_progress")}>
+        <StatusBtn active={status === "in_progress"} onClick={() => {
+          const next = status === "in_progress" ? "none" : "in_progress";
+          onStatus(next);
+          if (next === "in_progress") track("task_start", { taskId: task.id, reward: task.reward });
+        }}>
           <Loader2 className={`h-3 w-3 ${status === "in_progress" ? "animate-spin" : ""}`} /> W trakcie
         </StatusBtn>
-        <StatusBtn active={isDone} onClick={() => onStatus(isDone ? "none" : "done")}>
+        <StatusBtn active={isDone} onClick={() => {
+          const next = isDone ? "none" : "done";
+          onStatus(next);
+          if (next === "done") track("task_done", { taskId: task.id, reward: task.reward });
+        }}>
           <CheckCircle2 className="h-3 w-3" /> Zrobione
         </StatusBtn>
       </div>
