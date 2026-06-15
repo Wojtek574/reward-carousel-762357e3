@@ -41,6 +41,10 @@ import {
 } from "@/lib/tracking";
 import { Activity as ActivityIcon, BarChart3, MousePointerClick } from "lucide-react";
 import { resolveAffiliateUrl } from "@/lib/affiliate.functions";
+import proofBank from "@/assets/proof-bank.jpg";
+import proofBlik from "@/assets/proof-blik.jpg";
+import proofPaypal from "@/assets/proof-paypal.jpg";
+import proofHistory from "@/assets/proof-history.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
