@@ -223,6 +223,7 @@ function Index() {
       <TrackingPanel />
       <HowItWorks />
       <Payout />
+      <PayoutProofs />
       <RecentActivity />
       <Testimonials />
       <FinalCTA />
