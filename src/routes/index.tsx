@@ -41,6 +41,10 @@ import {
 } from "@/lib/tracking";
 import { Activity as ActivityIcon, BarChart3, MousePointerClick } from "lucide-react";
 import { resolveAffiliateUrl } from "@/lib/affiliate.functions";
+import proofBank from "@/assets/proof-bank.jpg";
+import proofBlik from "@/assets/proof-blik.jpg";
+import proofPaypal from "@/assets/proof-paypal.jpg";
+import proofHistory from "@/assets/proof-history.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -219,6 +223,7 @@ function Index() {
       <TrackingPanel />
       <HowItWorks />
       <Payout />
+      <PayoutProofs />
       <RecentActivity />
       <Testimonials />
       <FinalCTA />
@@ -608,6 +613,62 @@ function Payout() {
           </div>
         </div>
       </Card>
+    </section>
+  );
+}
+
+function PayoutProofs() {
+  const proofs = [
+    { src: proofBank, alt: "Potwierdzenie przelewu bankowego 127,00 zł od Zadaniomat", amount: "127,00 zł", method: "Przelew bankowy", date: "14.06.2026", name: "Kamila W." },
+    { src: proofBlik, alt: "Potwierdzenie wypłaty BLIK 85,50 zł", amount: "85,50 zł", method: "BLIK", date: "13.06.2026", name: "Mateusz K." },
+    { src: proofPaypal, alt: "Wypłata PayPal 215,30 PLN", amount: "215,30 zł", method: "PayPal", date: "12.06.2026", name: "Ola P." },
+    { src: proofHistory, alt: "Historia przelewów od Zadaniomat w aplikacji bankowej", amount: "276,50 zł", method: "Bank Pekao", date: "Czerwiec 2026", name: "Tomek R." },
+  ];
+  return (
+    <section className="mx-auto mt-32 w-[min(1200px,92%)]">
+      <div className="mb-8 flex flex-col items-start justify-between gap-3 md:flex-row md:items-end">
+        <div>
+          <Badge variant="outline" className="mb-3 border-money/40 bg-money/10 text-money">
+            <ShieldCheck className="mr-1 h-3 w-3" /> Dowody wypłat
+          </Badge>
+          <h2 className="text-3xl font-bold md:text-4xl">
+            Realne <span className="text-money">wypłaty</span> naszych użytkowników
+          </h2>
+          <p className="mt-2 max-w-2xl text-muted-foreground">
+            Zrzuty ekranu z potwierdzeń przelewów, BLIK i PayPal — pieniądze trafiają na konto najpóźniej w 24h.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <CheckCircle2 className="h-4 w-4 text-money" /> Wypłacone w czerwcu 2026
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {proofs.map((p) => (
+          <Card key={p.src} className="group overflow-hidden border-border bg-card p-3 shadow-card transition hover:-translate-y-1 hover:shadow-glow">
+            <div className="relative overflow-hidden rounded-xl bg-background/60">
+              <img
+                src={p.src}
+                alt={p.alt}
+                loading="lazy"
+                width={1024}
+                height={1024}
+                className="aspect-square w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+              />
+              <div className="absolute left-2 top-2 rounded-full bg-money px-2.5 py-1 text-xs font-semibold text-primary-foreground shadow-glow">
+                +{p.amount}
+              </div>
+            </div>
+            <div className="mt-3 flex items-center justify-between px-1 pb-1">
+              <div>
+                <div className="text-sm font-semibold">{p.name}</div>
+                <div className="text-xs text-muted-foreground">{p.method}</div>
+              </div>
+              <div className="text-right text-xs text-muted-foreground">{p.date}</div>
+            </div>
+          </Card>
+        ))}
+      </div>
     </section>
   );
 }
